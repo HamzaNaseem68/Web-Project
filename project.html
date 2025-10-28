@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePro Services</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FCFCFC;
+            color: #626262;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background-color: #151d42;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Side Navigation */
+        .menu-toggle {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .menu-toggle-label {
+            display: none;
+        }
+
+        #menu-toggle {
+            display: none;
+        }
+
+        .side-nav {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #0c0f20;
+            transition: left 0.3s;
+            z-index: 1000;
+            padding-top: 60px;
+        }
+
+        #menu-toggle:checked ~ .side-nav {
+            left: 0;
+        }
+
+        .side-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-nav li {
+            margin: 0;
+        }
+
+        .side-nav a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 15px 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .side-nav a:hover, .side-nav a:focus {
+            background-color: #c3ab6d;
+            outline: 2px solid #c3ab6d;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        #menu-toggle:checked ~ .overlay {
+            display: block;
+        }
+
+        /* Main Content */
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: #151d42;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero img {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin: 0 0 20px 0;
+        }
+
+        .cta-button {
+            background-color: #c3ab6d;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            background-color: #b6994e;
+            outline: 2px solid #b6994e;
+        }
+
+        /* Services Section */
+        .services {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            background-color: rgba(21, 29, 66, 0.8);
+            padding: 40px;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .service {
+            width: 22%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .service img {
+            width: 150px;
+            height: 150px;
+            border-radius: 5px;
+        }
+
+        .service h3 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        .service p {
+            font-size: 1rem;
+        }
+
+        /* Trust Section (Social Proof) */
+        .trust {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .trust img {
+            width: 300px;
+            height: 250px;
+            margin-right: 20px;
+        }
+
+        .trust ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .trust li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .trust li img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .trust h2 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        /* About Section with Secondary CTA */
+        .about {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .about img {
+            width: 300px;
+            height: 200px;
+            margin-right: 20px;
+        }
+
+        .about h2 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #212545;
+            color: #cccccc;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .services {
+                flex-direction: column;
+                align-items: center;
+            }
+            .service {
+                width: 80%;
+                margin-bottom: 30px;
+            }
+            .trust, .about {
+                flex-direction: column;
+                text-align: center;
+            }
+            .trust img, .about img {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 15px;
+            }
+            .menu-toggle {
+                left: 10px;
+                top: 15px;
+            }
+            .hero {
+                height: 300px;
+                padding: 20px;
+            }
+            .hero img {
+                max-width: 150px;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .services {
+                padding: 20px;
+            }
+            .service img {
+                width: 120px;
+                height: 120px;
+            }
+            .trust img, .about img {
+                width: 250px;
+                height: auto;
+            }
+            .side-nav {
+                width: 200px;
+            }
+            .side-nav a {
+                padding: 12px 15px;
+            }
+        }
+
+        /* Accessibility */
+        .menu-toggle:focus {
+            outline: 2px solid #c3ab6d;
+        }
+
+        /* Skip Link for Accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <header>
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="menu-toggle">☰</label>
+        <h1>SecurePro</h1>
+        <p>Advanced Security Solutions</p>
+    </header>
+    <nav class="side-nav">
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#trust">Why Trust Us</a></li>
+            <li><a href="#about">Training</a></li>
+            <li><a href="#footer">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="overlay"></div>
+    <main id="main">
+        <section id="hero" class="hero">
+            <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_slider_logo.png" alt="SecurePro Logo - Shield with eagle">
+            <h1>Protecting Your World</h1>
+            <p>Expert security services for peace of mind</p>
+            <a href="#services" class="cta-button">Learn More</a>
+        </section>
+        <section id="services" class="services">
+            <h2>Our Services</h2>
+            <div class="service">
+                <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer1.png" alt="Personal Protection Icon - Shield with person">
+                <h3>Personal Protection</h3>
+                <p>Round-the-clock personal security for individuals and families.</p>
+            </div>
+            <div class="service">
+                <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer2.png" alt="Private Detective Icon - Magnifying glass">
+                <h3>Private Detective Services</h3>
+                <p>Discreet investigations and surveillance solutions.</p>
+            </div>
+            <div class="service">
+                <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer3.png" alt="Security Equipment Icon - Gear and lock">
+                <h3>Security Equipment</h3>
+                <p>State-of-the-art tools for comprehensive protection.</p>
+            </div>
+            <div class="service">
+                <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer4.png" alt="Analysis Icon - Chart and magnifying glass">
+                <h3>Analysis & Investigations</h3>
+                <p>In-depth risk analysis and investigative reports.</p>
+            </div>
+        </section>
+        <section id="trust" class="trust">
+            <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_trust_us1.jpg" alt="Security professional in action">
+            <div>
+                <h2>Why Trust Us?</h2>
+                <ul>
+                    <li><img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_features_1.png" alt="Precision Icon"><strong>Precision in Every Moment:</strong> Unmatched attention to detail.</li>
+                    <li><img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_features_2.png" alt="Communication Icon"><strong>24/7 Communication:</strong> Always available for support.</li>
+                    <li><img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_features_3.png" alt="Spy Tools Icon"><strong>Advanced Spy Tools:</strong> Cutting-edge technology.</li>
+                    <li><img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_features_4.png" alt="Emergency Icon"><strong>Emergency Assistance:</strong> Rapid response when needed.</li>
+                </ul>
+            </div>
+        </section>
+        <section id="about" class="about">
+            <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_professional_training.jpg" alt="Professional training session">
+            <div>
+                <h2>About Our Training</h2>
+                <p>Our expert-led training programs prepare professionals for real-world security challenges.</p>
+                <a href="#footer" class="cta-button">Contact Us</a>
+            </div>
+        </section>
+    </main>
+    <footer id="footer">
+        <p>&copy; 2023 SecurePro. All rights reserved.</p>
+        <p>Address: 123 Security Lane, Safe City | Email: info@securepro.com</p>
+    </footer>
+</body>
+</html>
