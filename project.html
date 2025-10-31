@@ -1,410 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SecurePro Services</title>
-    <style>
-        /* Base Styles */
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #FCFCFC;
-            color: #626262;
-            line-height: 1.6;
-        }
-
-        /* Header */
-        header {
-            background-color: #151d42;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-
-        /* Side Navigation */
-        .menu-toggle {
-            position: absolute;
-            left: 20px;
-            top: 20px;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            display: block;
-        }
-
-        .menu-toggle-label {
-            display: none;
-        }
-
-        #menu-toggle {
-            display: none;
-        }
-
-        .side-nav {
-            position: fixed;
-            left: -250px;
-            top: 0;
-            width: 250px;
-            height: 100%;
-            background-color: #0c0f20;
-            transition: left 0.3s;
-            z-index: 1000;
-            padding-top: 60px;
-        }
-
-        #menu-toggle:checked ~ .side-nav {
-            left: 0;
-        }
-
-        .side-nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .side-nav li {
-            margin: 0;
-        }
-
-        .side-nav a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 15px 20px;
-            border-bottom: 1px solid #333;
-        }
-
-        .side-nav a:hover, .side-nav a:focus {
-            background-color: #c3ab6d;
-            outline: 2px solid #c3ab6d;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            z-index: 999;
-        }
-
-        #menu-toggle:checked ~ .overlay {
-            display: block;
-        }
-
-        /* Main Content */
-        main {
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Hero Section */
-        .hero {
-            background-color: #151d42;
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-        }
-
-        .hero img {
-            max-width: 200px;
-            margin-bottom: 20px;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin: 0 0 10px 0;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin: 0 0 20px 0;
-        }
-
-        .cta-button {
-            background-color: #c3ab6d;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            font-weight: bold;
-        }
-
-        .cta-button:hover, .cta-button:focus {
-            background-color: #b6994e;
-            outline: 2px solid #b6994e;
-        }
-
-        /* Services Section */
-        .services {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            background-color: rgba(21, 29, 66, 0.8);
-            padding: 40px;
-            color: white;
-            margin-bottom: 40px;
-        }
-
-        .service {
-            width: 22%;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .service img {
-            width: 150px;
-            height: 150px;
-            border-radius: 5px;
-        }
-
-        .service h3 {
-            font-size: 1.5rem;
-            margin: 10px 0;
-        }
-
-        .service p {
-            font-size: 1rem;
-        }
-
-        /* Trust Section (Social Proof) */
-        .trust {
-            display: flex;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .trust img {
-            width: 300px;
-            height: 250px;
-            margin-right: 20px;
-        }
-
-        .trust ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .trust li {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .trust li img {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        .trust h2 {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        /* About Section with Secondary CTA */
-        .about {
-            display: flex;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .about img {
-            width: 300px;
-            height: 200px;
-            margin-right: 20px;
-        }
-
-        .about h2 {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #212545;
-            color: #cccccc;
-            text-align: center;
-            padding: 20px;
-        }
-
-        footer p {
-            margin: 5px 0;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 900px) {
-            .services {
-                flex-direction: column;
-                align-items: center;
-            }
-            .service {
-                width: 80%;
-                margin-bottom: 30px;
-            }
-            .trust, .about {
-                flex-direction: column;
-                text-align: center;
-            }
-            .trust img, .about img {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 600px) {
-            header {
-                padding: 15px;
-            }
-            .menu-toggle {
-                left: 10px;
-                top: 15px;
-            }
-            .hero {
-                height: 300px;
-                padding: 20px;
-            }
-            .hero img {
-                max-width: 150px;
-            }
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-            .services {
-                padding: 20px;
-            }
-            .service img {
-                width: 120px;
-                height: 120px;
-            }
-            .trust img, .about img {
-                width: 250px;
-                height: auto;
-            }
-            .side-nav {
-                width: 200px;
-            }
-            .side-nav a {
-                padding: 12px 15px;
-            }
-        }
-
-        /* Accessibility */
-        .menu-toggle:focus {
-            outline: 2px solid #c3ab6d;
-        }
-
-        /* Skip Link for Accessibility */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 6px;
-            background: #000;
-            color: #fff;
-            padding: 8px;
-            text-decoration: none;
-            z-index: 100;
-        }
-
-        .skip-link:focus {
-            top: 6px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecurePro Services</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Roboto', Arial, sans-serif; margin: 0; padding: 0; background-color: #FCFCFC; color: #626262; }
+    header { background-color: #151d42; color: white; padding: 20px; text-align: center; position: relative; }
+    .menu-toggle { position: absolute; left: 20px; top: 20px; background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; }
+    .side-nav { position: fixed; left: -250px; top: 0; width: 250px; height: 100%; background-color: #0c0f20; transition: left 0.3s; z-index: 1000; padding-top: 60px; }
+    .side-nav.open { left: 0; }
+    .side-nav ul { list-style: none; padding: 0; margin: 0; }
+    .side-nav a { color: white; text-decoration: none; display: block; padding: 15px 20px; border-bottom: 1px solid #333; }
+    .side-nav a:hover { background-color: #c3ab6d; }
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
+    .overlay.show { display: block; }
+    main { padding: 20px; max-width: 1200px; margin: 0 auto; }
+    .hero { background-color: #151d42; height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; }
+    .hero img { max-width: 200px; margin-bottom: 20px; }
+    .cta-button { background-color: #c3ab6d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold; }
+    .services { display: flex; flex-wrap: wrap; justify-content: space-around; background-color: rgba(21, 29, 66, 0.8); padding: 40px; color: white; margin-bottom: 40px; }
+    .service { width: 22%; text-align: center; margin-bottom: 20px; }
+    .trust, .about { display: flex; align-items: center; margin-bottom: 40px; }
+    .checkout, .crud { display: none; padding: 40px 0; }
+    .checkout.show, .crud.show { display: block; }
+    footer { background-color: #212545; color: #cccccc; text-align: center; padding: 20px; margin-top: 40px; }
+    .table-container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .btn-gold { background-color: #c3ab6d; color: white; }
+    .btn-gold:hover { background-color: #b6994e; color: white; }
+    .hidden { display: none; }
+  </style>
 </head>
+
 <body>
-    <a href="#main" class="skip-link">Skip to main content</a>
-    <header>
-        <input type="checkbox" id="menu-toggle">
-        <label for="menu-toggle" class="menu-toggle">☰</label>
-        <h1>SecurePro</h1>
-        <p>Advanced Security Solutions</p>
-    </header>
-    <nav class="side-nav">
+  <header>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <h1>SecurePro</h1>
+    <p>Advanced Security Solutions</p>
+  </header>
+
+  <nav class="side-nav" id="sideNav">
+    <ul>
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#trust">Why Trust Us</a></li>
+      <li><a href="#about">Training</a></li>
+      <li><a href="#checkout" onclick="showSection('checkout')">Checkout</a></li>
+      <li><a href="#crud" onclick="showSection('crud')">CRUD</a></li>
+      <li><a href="#footer">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+  <main id="main">
+    <section id="hero" class="hero">
+      <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_slider_logo.png">
+      <h1>Protecting Your World</h1>
+      <p>Expert security services for peace of mind</p>
+      <a href="#services" class="cta-button">Learn More</a>
+    </section>
+
+    <section id="services" class="services">
+      <h2>Our Services</h2>
+      <div class="service">
+        <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer1.png">
+        <h3>Personal Protection</h3>
+        <p>24/7 security for individuals and families.</p>
+      </div>
+      <div class="service">
+        <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer2.png">
+        <h3>Private Detective</h3>
+        <p>Discreet investigations and reports.</p>
+      </div>
+      <div class="service">
+        <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer3.png">
+        <h3>Security Equipment</h3>
+        <p>Modern tools for complete protection.</p>
+      </div>
+      <div class="service">
+        <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer4.png">
+        <h3>Analysis & Investigations</h3>
+        <p>Accurate reports and analysis.</p>
+      </div>
+    </section>
+
+    <section id="trust" class="trust">
+      <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_trust_us1.jpg">
+      <div>
+        <h2>Why Trust Us?</h2>
         <ul>
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#trust">Why Trust Us</a></li>
-            <li><a href="#about">Training</a></li>
-            <li><a href="#footer">Contact</a></li>
+          <li>Precision in every moment</li>
+          <li>24/7 communication</li>
+          <li>Advanced spy tools</li>
+          <li>Emergency assistance</li>
         </ul>
-    </nav>
-    <div class="overlay"></div>
-    <main id="main">
-        <section id="hero" class="hero">
-            <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_slider_logo.png" alt="SecurePro Logo - Shield with eagle">
-            <h1>Protecting Your World</h1>
-            <p>Expert security services for peace of mind</p>
-            <a href="#services" class="cta-button">Learn More</a>
-        </section>
-        <section id="services" class="services">
-            <h2>Our Services</h2>
-            <div class="service">
-                <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer1.png" alt="Personal Protection Icon - Shield with person">
-                <h3>Personal Protection</h3>
-                <p>Round-the-clock personal security for individuals and families.</p>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_professional_training.jpg">
+      <div>
+        <h2>Professional Training</h2>
+        <p>We prepare professionals for real-world security challenges.</p>
+        <a href="#checkout" class="cta-button" onclick="showSection('checkout')">Get Started</a>
+      </div>
+    </section>
+
+    <!-- Checkout Page -->
+    <section id="checkout" class="checkout">
+      <div class="container">
+        <h2 class="text-center mb-4">Checkout</h2>
+        <form id="checkoutForm" novalidate>
+          <div class="row g-4">
+            <div class="col-12 col-lg-7">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label>Full Name</label>
+                  <input id="fullName" type="text" class="form-control" required minlength="3">
+                </div>
+                <div class="col-md-6">
+                  <label>Email</label>
+                  <input id="email" type="email" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>Phone</label>
+                  <input id="phone" type="tel" pattern="\\d{10,}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>Address</label>
+                  <input id="address" type="text" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>City</label>
+                  <input id="city" type="text" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>Postal Code</label>
+                  <input id="postal" type="text" pattern="\\d{4,6}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>Country</label>
+                  <select id="country" class="form-select" required>
+                    <option value="">Select Country</option>
+                    <option>Pakistan</option>
+                    <option>USA</option>
+                    <option>UK</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label>Payment</label>
+                  <select id="payment" class="form-select" required onchange="toggleCardFields()">
+                    <option value="">Select Payment</option>
+                    <option value="card">Card</option>
+                    <option value="cod">COD</option>
+                    <option value="wallet">Wallet</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="cardFields" class="hidden mt-3">
+                <h5>Card Details</h5>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label>Cardholder Name</label>
+                    <input id="cardName" type="text" class="form-control">
+                  </div>
+                  <div class="col-md-6">
+                    <label>Card Number</label>
+                    <input id="cardNumber" type="text" class="form-control" maxlength="16" pattern="\\d{16}">
+                  </div>
+                  <div class="col-md-6">
+                    <label>Expiry Date</label>
+                    <input id="expiry" type="month" class="form-control">
+                  </div>
+                  <div class="col-md-6">
+                    <label>CVV</label>
+                    <input id="cvv" type="text" class="form-control" maxlength="3" pattern="\\d{3}">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-check mt-4">
+                <input type="checkbox" class="form-check-input" id="termsCheck" onchange="validateForm()">
+                <label class="form-check-label" for="termsCheck">I agree to terms</label>
+              </div>
+              <button id="placeOrderBtn" class="btn btn-gold mt-3" type="submit" disabled>Place Order</button>
             </div>
-            <div class="service">
-                <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer2.png" alt="Private Detective Icon - Magnifying glass">
-                <h3>Private Detective Services</h3>
-                <p>Discreet investigations and surveillance solutions.</p>
-            </div>
-            <div class="service">
-                <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer3.png" alt="Security Equipment Icon - Gear and lock">
-                <h3>Security Equipment</h3>
-                <p>State-of-the-art tools for comprehensive protection.</p>
-            </div>
-            <div class="service">
-                <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer4.png" alt="Analysis Icon - Chart and magnifying glass">
-                <h3>Analysis & Investigations</h3>
-                <p>In-depth risk analysis and investigative reports.</p>
-            </div>
-        </section>
-        <section id="trust" class="trust">
-            <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_trust_us1.jpg" alt="Security professional in action">
-            <div>
-                <h2>Why Trust Us?</h2>
-                <ul>
-                    <li><img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_features_1.png" alt="Precision Icon"><strong>Precision in Every Moment:</strong> Unmatched attention to detail.</li>
-                    <li><img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_features_2.png" alt="Communication Icon"><strong>24/7 Communication:</strong> Always available for support.</li>
-                    <li><img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_features_3.png" alt="Spy Tools Icon"><strong>Advanced Spy Tools:</strong> Cutting-edge technology.</li>
-                    <li><img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_features_4.png" alt="Emergency Icon"><strong>Emergency Assistance:</strong> Rapid response when needed.</li>
+
+            <div class="col-12 col-lg-5">
+              <div class="card p-3">
+                <h4>Order Summary</h4>
+                <ul class="list-group mb-3">
+                  <li class="list-group-item d-flex justify-content-between"><span>Personal Protection</span><span>$12</span></li>
+                  <li class="list-group-item d-flex justify-content-between"><span>Equipment</span><span>$8</span></li>
+                  <li class="list-group-item d-flex justify-content-between"><strong>Total</strong><strong>$20</strong></li>
                 </ul>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Coupon">
+                  <button class="btn btn-gold">Apply</button>
+                </div>
+              </div>
             </div>
-        </section>
-        <section id="about" class="about">
-            <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_professional_training.jpg" alt="Professional training session">
-            <div>
-                <h2>About Our Training</h2>
-                <p>Our expert-led training programs prepare professionals for real-world security challenges.</p>
-                <a href="#footer" class="cta-button">Contact Us</a>
-            </div>
-        </section>
-    </main>
-    <footer id="footer">
-        <p>&copy; 2023 SecurePro. All rights reserved.</p>
-        <p>Address: 123 Security Lane, Safe City | Email: info@securepro.com</p>
-    </footer>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- CRUD Section -->
+    <section id="crud" class="crud">
+      <div class="container">
+        <h2 class="text-center mb-4">Employee Records (CRUD)</h2>
+        <div class="table-container">
+          <div class="d-flex justify-content-between mb-3">
+            <input type="text" id="searchInput" class="form-control w-50" placeholder="Search employee...">
+            <button class="btn btn-gold" onclick="addEmployee()">Add Employee</button>
+          </div>
+          <table class="table table-bordered text-center align-middle">
+            <thead class="table-dark">
+              <tr><th>ID</th><th>Name</th><th>Role</th><th>Salary</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="employeeTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer">
+    <p>&copy; 2025 SecurePro. All rights reserved.</p>
+    <p>123 Security Lane, Safe City | info@securepro.com</p>
+  </footer>
+
+  <script>
+    // Sidebar
+    function toggleMenu() {
+      document.getElementById("sideNav").classList.toggle("open");
+      document.getElementById("overlay").classList.toggle("show");
+    }
+    function showSection(sectionId) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("show"));
+      document.getElementById(sectionId).classList.add("show");
+      window.scrollTo(0, 0);
+    }
+
+    // Checkout
+    function toggleCardFields() {
+      const payment = document.getElementById("payment").value;
+      const cardFields = document.getElementById("cardFields");
+      cardFields.classList.toggle("hidden", payment !== "card");
+    }
+
+    function validateForm() {
+      const form = document.getElementById("checkoutForm");
+      const terms = document.getElementById("termsCheck").checked;
+      const btn = document.getElementById("placeOrderBtn");
+      btn.disabled = !form.checkValidity() || !terms;
+    }
+
+    document.getElementById("checkoutForm").addEventListener("input", validateForm);
+    document.getElementById("checkoutForm").addEventListener("submit", e => {
+      e.preventDefault();
+      if (e.target.checkValidity() && document.getElementById("termsCheck").checked) {
+        alert("Order placed successfully!");
+      }
+    });
+
+    // CRUD
+    const employees = [
+      { id: 1, name: "Ali Khan", role: "Guard", salary: 25000 },
+      { id: 2, name: "Sara Malik", role: "Analyst", salary: 40000 },
+      { id: 3, name: "Ahmed Raza", role: "Technician", salary: 35000 }
+    ];
+    function renderTable() {
+      const tbody = document.getElementById("employeeTable");
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      tbody.innerHTML = "";
+      employees.filter(e => e.name.toLowerCase().includes(search))
+        .forEach(e => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${e.id}</td>
+              <td>${e.name}</td>
+              <td>${e.role}</td>
+              <td>${e.salary}</td>
+              <td>
+                <button class='btn btn-sm btn-gold' onclick='editEmployee(${e.id})'>Edit</button>
+                <button class='btn btn-sm btn-danger' onclick='deleteEmployee(${e.id})'>Delete</button>
+              </td>
+            </tr>`;
+        });
+    }
+    function addEmployee() {
+      const name = prompt("Enter employee name:");
+      const role = prompt("Enter role:");
+      const salary = prompt("Enter salary:");
+      if (name && role && salary) {
+        employees.push({ id: employees.length + 1, name, role, salary });
+        renderTable();
+      }
+    }
+    function editEmployee(id) {
+      const emp = employees.find(e => e.id === id);
+      const name = prompt("Edit name:", emp.name);
+      const role = prompt("Edit role:", emp.role);
+      const salary = prompt("Edit salary:", emp.salary);
+      if (name && role && salary) {
+        emp.name = name;
+        emp.role = role;
+        emp.salary = salary;
+        renderTable();
+      }
+    }
+    function deleteEmployee(id) {
+      const index = employees.findIndex(e => e.id === id);
+      if (confirm("Delete this record?")) {
+        employees.splice(index, 1);
+        renderTable();
+      }
+    }
+    document.getElementById("searchInput").addEventListener("input", renderTable);
+    renderTable();
+  </script>
 </body>
 </html>
