@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecurePro Services</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+  <header>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <h1>SecurePro</h1>
+    <p>Advanced Security Solutions</p>
+  </header>
+
+  <nav class="side-nav" id="sideNav">
+    <ul>
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#trust">Why Trust Us</a></li>
+      <li><a href="#about">Training</a></li>
+      <li><a href="#checkout" onclick="showSection('checkout')">Checkout</a></li>
+      <li><a href="#crud" onclick="showSection('crud')">CRUD</a></li>
+      <li><a href="#footer">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+  <main id="main">
+    <section id="hero" class="hero">
+      <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_slider_logo.png">
+      <h1>Protecting Your World</h1>
+      <p>Expert security services for peace of mind</p>
+      <a href="#services" class="cta-button">Learn More</a>
+    </section>
+
+    <section id="services" class="services">
+      <h2>Our Services</h2>
+      <div class="service">
+        <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer1.png">
+        <h3>Personal Protection</h3>
+        <p>24/7 security for individuals and families.</p>
+      </div>
+      <div class="service">
+        <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer2.png">
+        <h3>Private Detective</h3>
+        <p>Discreet investigations and reports.</p>
+      </div>
+      <div class="service">
+        <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer3.png">
+        <h3>Security Equipment</h3>
+        <p>Modern tools for complete protection.</p>
+      </div>
+      <div class="service">
+        <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_offer4.png">
+        <h3>Analysis & Investigations</h3>
+        <p>Accurate reports and analysis.</p>
+      </div>
+    </section>
+
+    <section id="trust" class="trust">
+      <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_trust_us1.jpg">
+      <div>
+        <h2>Why Trust Us?</h2>
+        <ul>
+          <li>Precision in every moment</li>
+          <li>24/7 communication</li>
+          <li>Advanced spy tools</li>
+          <li>Emergency assistance</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <img src="https://themes.muffingroup.com/be/security/wp-content/uploads/2014/11/home_security_professional_training.jpg">
+      <div>
+        <h2>Professional Training</h2>
+        <p>We prepare professionals for real-world security challenges.</p>
+        <a href="#checkout" class="cta-button" onclick="showSection('checkout')">Get Started</a>
+      </div>
+    </section>
+
+    <section id="checkout" class="checkout">
+      <div class="container">
+        <h2 class="text-center mb-4">Checkout</h2>
+        <form id="checkoutForm" novalidate>
+          <div class="row g-4">
+            <div class="col-12 col-lg-7">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label>Full Name</label>
+                  <input id="fullName" type="text" class="form-control" required minlength="3">
+                </div>
+                <div class="col-md-6">
+                  <label>Email</label>
+                  <input id="email" type="email" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>Phone</label>
+                  <input id="phone" type="tel" pattern="\d{10,}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>Address</label>
+                  <input id="address" type="text" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>City</label>
+                  <input id="city" type="text" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>Postal Code</label>
+                  <input id="postal" type="text" pattern="\d{4,6}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label>Country</label>
+                  <select id="country" class="form-select" required>
+                    <option value="">Select Country</option>
+                    <option>Pakistan</option>
+                    <option>USA</option>
+                    <option>UK</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label>Payment</label>
+                  <select id="payment" class="form-select" required onchange="toggleCardFields()">
+                    <option value="">Select Payment</option>
+                    <option value="card">Card</option>
+                    <option value="cod">COD</option>
+                    <option value="wallet">Wallet</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="cardFields" class="hidden mt-3">
+                <h5>Card Details</h5>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label>Cardholder Name</label>
+                    <input id="cardName" type="text" class="form-control">
+                  </div>
+                  <div class="col-md-6">
+                    <label>Card Number</label>
+                    <input id="cardNumber" type="text" class="form-control" maxlength="16" pattern="\d{16}">
+                  </div>
+                  <div class="col-md-6">
+                    <label>Expiry Date</label>
+                    <input id="expiry" type="month" class="form-control">
+                  </div>
+                  <div class="col-md-6">
+                    <label>CVV</label>
+                    <input id="cvv" type="text" class="form-control" maxlength="3" pattern="\d{3}">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-check mt-4">
+                <input type="checkbox" class="form-check-input" id="termsCheck" onchange="validateForm()">
+                <label class="form-check-label" for="termsCheck">I agree to terms</label>
+              </div>
+              <button id="placeOrderBtn" class="btn btn-gold mt-3" type="submit" disabled>Place Order</button>
+            </div>
+
+            <div class="col-12 col-lg-5">
+              <div class="card p-3">
+                <h4>Order Summary</h4>
+                <ul class="list-group mb-3">
+                  <li class="list-group-item d-flex justify-content-between"><span>Personal Protection</span><span>$12</span></li>
+                  <li class="list-group-item d-flex justify-content-between"><span>Equipment</span><span>$8</span></li>
+                  <li class="list-group-item d-flex justify-content-between"><strong>Total</strong><strong>$20</strong></li>
+                </ul>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Coupon">
+                  <button class="btn btn-gold">Apply</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="crud" class="crud">
+      <div class="container">
+        <h2 class="text-center mb-4">Employee Records (CRUD)</h2>
+        <div class="table-container">
+          <div class="d-flex justify-content-between mb-3">
+            <input type="text" id="searchInput" class="form-control w-50" placeholder="Search employee...">
+            <button class="btn btn-gold" onclick="addEmployee()">Add Employee</button>
+          </div>
+          <table class="table table-bordered text-center align-middle">
+            <thead class="table-dark">
+              <tr><th>ID</th><th>Name</th><th>Role</th><th>Salary</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="employeeTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer">
+    <p>&copy; 2025 SecurePro. All rights reserved.</p>
+    <p>123 Security Lane, Safe City | info@securepro.com</p>
+  </footer>
+
+  <script src="script1.js"></script>
+</body>
+</html>
