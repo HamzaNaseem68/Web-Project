@@ -7,11 +7,12 @@ body {
 }
 
 header {
-  background-color: #151d42;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   color: white;
   padding: 20px;
   text-align: center;
   position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .menu-toggle {
@@ -160,26 +161,7 @@ footer {
   margin-top: 40px;
 }
 
-.table-container {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn-gold {
-  background-color: #c3ab6d;
-  color: white;
-}
-
-.btn-gold:hover {
-  background-color: #b6994e;
-  color: white;
-}
-
-.hidden {
-  display: none;
-}
+/* Merged into Premium Styles below */
 
 /* Testimonials Section */
 .testimonials {
@@ -308,4 +290,135 @@ footer {
 
 .table tbody tr:hover {
   background-color: #f8f9fa;
+}
+
+/* Animations */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Premium V2 Styles --- */
+
+/* Floating Search Bar */
+.search-container {
+  background: white;
+  padding: 8px 20px;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-container:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  color: #495057;
+}
+
+/* Premium Floating Table */
+.table-premium {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+  /* Spacing between rows */
+}
+
+.table-premium thead th {
+  border: none;
+  background: transparent;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  padding: 0 20px 10px 20px;
+}
+
+.table-premium tbody tr {
+  background: white;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.02);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.table-premium tbody tr:hover {
+  transform: scale(1.01);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  background: white;
+  /* Override default hover */
+  z-index: 10;
+  position: relative;
+}
+
+.table-premium td {
+  border: none;
+  padding: 20px;
+  vertical-align: middle;
+}
+
+.table-premium td:first-child {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.table-premium td:last-child {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+/* Action Icon Buttons */
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px;
+  transition: all 0.2s ease;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-icon-edit {
+  background: linear-gradient(45deg, #ffd700, #ffca28);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+}
+
+.btn-icon-edit:hover {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.btn-icon-delete {
+  background: linear-gradient(45deg, #ff6b6b, #ee5253);
+  color: white;
+  box-shadow: 0 4px 10px rgba(238, 82, 83, 0.3);
+}
+
+.btn-icon-delete:hover {
+  transform: rotate(-15deg) scale(1.1);
 }
