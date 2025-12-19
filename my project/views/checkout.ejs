@@ -1,0 +1,116 @@
+<%- include('partials/header') %>
+
+    <section class="checkout-page py-5" style="background-color: #f4f7f6; min-height: 80vh;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card p-5 mb-4">
+                        <h2 class="mb-4 text-center" style="color: #151d42; font-weight: 700;">Secure Checkout</h2>
+
+                        <form id="checkoutForm" novalidate>
+                            <h5 class="mb-3 text-muted">Billing Details</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Full Name</label>
+                                    <input id="fullName" type="text" class="form-control" placeholder="John Doe"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Email Address</label>
+                                    <input id="email" type="email" class="form-control" placeholder="john@example.com"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Phone Number</label>
+                                    <input id="phone" type="tel" class="form-control" placeholder="+1234567890"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">City</label>
+                                    <input id="city" type="text" class="form-control" placeholder="New York" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Shipping Address</label>
+                                    <input id="address" type="text" class="form-control" placeholder="1234 Main St"
+                                        required>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h5 class="mb-3 text-muted">Payment Method</h5>
+                            <div class="mb-3">
+                                <select id="payment" class="form-select" required onchange="toggleCardFields()">
+                                    <option value="">Choose Payment Option...</option>
+                                    <option value="card">Credit / Debit Card</option>
+                                    <option value="cod">Cash on Delivery</option>
+                                    <option value="wallet">Digital Wallet</option>
+                                </select>
+                            </div>
+
+                            <div id="cardFields" class="hidden p-4 rounded bg-light border mb-3">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label class="form-label small text-uppercase">Card Number</label>
+                                        <input id="cardNumber" type="text" class="form-control"
+                                            placeholder="0000 0000 0000 0000">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small text-uppercase">Expiry</label>
+                                        <input id="expiry" type="month" class="form-control">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small text-uppercase">CVV</label>
+                                        <input id="cvv" type="text" class="form-control" placeholder="123">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input type="checkbox" class="form-check-input" id="termsCheck"
+                                    onchange="validateForm()">
+                                <label class="form-check-label" for="termsCheck">I agree to the <a href="#"
+                                        style="color: #c3ab6d;">Terms & Conditions</a></label>
+                            </div>
+
+                            <button id="placeOrderBtn" class="btn btn-gold w-100 py-3" type="submit" disabled>
+                                Confirm Order
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Order Summary Side Panel -->
+                <div class="col-lg-4">
+                    <div class="card p-4 bg-white text-dark">
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span style="color: #151d42;">Your Cart</span>
+                            <span class="badge bg-secondary rounded-pill">2</span>
+                        </h4>
+                        <ul class="list-group mb-3 list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">Home Protection</h6>
+                                    <small class="text-muted">Yearly Subscription</small>
+                                </div>
+                                <span class="text-muted">$120</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">Security Camera</h6>
+                                    <small class="text-muted">HD Night Vision</small>
+                                </div>
+                                <span class="text-muted">$80</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between border-top pt-3">
+                                <span>Total (USD)</span>
+                                <strong>$200</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>

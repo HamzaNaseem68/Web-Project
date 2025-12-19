@@ -1,0 +1,120 @@
+<%- include('partials/header') %>
+
+    <section class="order-preview-page py-5" style="background-color: #f4f7f6; min-height: 80vh;">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 style="color: #151d42; font-weight: bold;">Order Preview</h2>
+                    <p class="text-muted">Review your items before finalizing your order.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px;">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-4">Cart Items</h5>
+                            <div class="table-responsive">
+                                <table class="table table-borderless align-middle">
+                                    <thead class="text-muted small text-uppercase">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th class="text-end">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (cart && cart.length> 0) { %>
+                                            <% cart.forEach(item=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <div class="fw-bold" style="color: #151d42;">
+                                                            <%= item.name %>
+                                                        </div>
+                                                    </td>
+                                                    <td>Rs. <%= item.price %>
+                                                    </td>
+                                                    <td>
+                                                        <%= item.quantity %>
+                                                    </td>
+                                                    <td class="text-end fw-bold">Rs. <%= item.price * item.quantity %>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="4" class="text-center py-4">Your cart is empty.
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/products" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 10px;">
+                            <i class="fas fa-arrow-left me-2"></i> Go Back to Products
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-lg text-white"
+                        style="border-radius: 20px; background: linear-gradient(135deg, #151d42 0%, #1e2a5e 100%);">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-4">Summary</h5>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal</span>
+                                <span>Rs. <%= originalTotal %></span>
+                            </div>
+
+                            <% if (discountAmount> 0) { %>
+                                <div class="d-flex justify-content-between mb-2 text-warning">
+                                    <span>Discount (SAVE10)</span>
+                                    <span>- Rs. <%= discountAmount %></span>
+                                </div>
+                                <% } %>
+
+                                    <hr class="my-4" style="opacity: 0.2;">
+
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <span class="h5 fw-bold">Grand Total</span>
+                                        <span class="h4 fw-bold">Rs. <%= finalTotal %></span>
+                                    </div>
+
+                                    <form action="/order/preview" method="GET" class="mb-4">
+                                        <div class="input-group">
+                                            <input type="text" name="coupon" class="form-control border-0"
+                                                placeholder="Coupon Code" value="<%= couponCode %>"
+                                                style="border-radius: 10px 0 0 10px;">
+                                            <button class="btn btn-gold px-3" type="submit"
+                                                style="border-radius: 0 10px 10px 0;">Apply</button>
+                                        </div>
+                                    </form>
+
+                                    <form action="/order/confirm" method="POST">
+                                        <input type="hidden" name="coupon" value="<%= couponCode %>">
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold text-uppercase">Email Address</label>
+                                            <input type="email" name="email"
+                                                class="form-control bg-transparent text-white border-secondary" required
+                                                placeholder="your@email.com" style="border-radius: 10px;"
+                                                value="<%= email %>">
+                                        </div>
+                                        <button type="submit" class="btn btn-gold w-100 py-3 fw-bold shadow-sm"
+                                            style="border-radius: 15px; font-size: 1.1rem;">
+                                            Confirm Order
+                                        </button>
+                                    </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>

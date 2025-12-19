@@ -1,0 +1,35 @@
+const mongoose = require('mongoose');
+
+const productSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
+    description: {
+        type: String,
+        required: [true, 'Please add a description']
+    },
+    categories: {
+        type: [String],
+        required: true
+    },
+    id: {
+        type: Number
+    },
+    price: {
+        type: Number,
+        required: [true, 'Please add a price'],
+        default: 0
+    }
+});
+
+// Auto-increment ID simplified logic (optional, but good for display consistency with previous lab)
+// Ideally relying on _id is better, but user asked for 'id'.
+productSchema.pre('save', function (next) {
+    if (!this.id) {
+        this.id = Math.floor(Math.random() * 10000);
+    }
+    next();
+});
+
+module.exports = mongoose.model('Product', productSchema);

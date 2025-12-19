@@ -2,9 +2,14 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const connectDB = require('./config/db');
+require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
+
+// Connect Database
+connectDB();
 
 // Middleware
 app.use(cors());
@@ -20,10 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 const mainRoutes = require('./routes/mainRoutes');
-const employeeRoutes = require('./routes/employeeRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 app.use('/', mainRoutes);
-app.use('/api/employees', employeeRoutes);
+app.use('/api/products', productRoutes);
 
 // Start Server
 app.listen(PORT, () => {

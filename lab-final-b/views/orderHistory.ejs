@@ -1,0 +1,88 @@
+<%- include('partials/header') %>
+
+    <section class="order-history-page py-5" style="background-color: #f4f7f6; min-height: 80vh;">
+        <div class="container">
+            <div class="row mb-5 align-items-center">
+                <div class="col-md-6">
+                    <h2 style="color: #151d42; font-weight: bold;">Order History</h2>
+                    <p class="text-muted">View and track all your orders.</p>
+                </div>
+                <div class="col-md-6">
+                    <form action="/order/my-orders" method="GET" class="d-flex shadow-sm"
+                        style="border-radius: 15px; overflow: hidden;">
+                        <input type="email" name="email" class="form-control border-0 p-3" value="<%= email %>"
+                            placeholder="Enter your email to search..." required>
+                        <button class="btn btn-gold px-4" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+
+            <% if (email && orders && orders.length> 0) { %>
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <% orders.forEach(order=> { %>
+                        <div class="col">
+                            <div class="card border-0 shadow-sm h-100" style="border-radius: 20px; overflow: hidden;">
+                                <div class="card-header border-0 p-4 d-flex justify-content-between align-items-center"
+                                    style="background: #ffffff;">
+                                    <div>
+                                        <span class="text-muted small fw-bold text-uppercase d-block mb-1">Order
+                                            ID</span>
+                                        <span class="fw-bold text-primary">#<%= order._id.toString().slice(-8) %></span>
+                                    </div>
+                                    <div class="text-end">
+                                        <span
+                                            class="badge <%= order.status === 'Delivered' ? 'bg-success' : (order.status === 'Processing' ? 'bg-warning text-dark' : 'bg-primary') %> py-2 px-3 rounded-pill">
+                                            <%= order.status %>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4 pt-0">
+                                    <hr class="mt-0 mb-4 opacity-10">
+                                    <div class="mb-3">
+                                        <span class="text-muted small fw-bold text-uppercase d-block mb-2">Items</span>
+                                        <ul class="list-unstyled mb-0">
+                                            <% order.items.forEach(item=> { %>
+                                                <li class="d-flex justify-content-between mb-1">
+                                                    <span>
+                                                        <%= item.name %> x<%= item.quantity %>
+                                                    </span>
+                                                    <span class="fw-bold">Rs. <%= item.price * item.quantity %></span>
+                                                </li>
+                                                <% }) %>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-footer border-0 p-4 d-flex justify-content-between align-items-center"
+                                    style="background: #f8fafb;">
+                                    <span class="text-muted">
+                                        <%= new Date(order.createdAt).toLocaleDateString() %>
+                                    </span>
+                                    <span class="h5 fw-bold mb-0" style="color: #151d42;">Total: Rs. <%=
+                                            order.finalTotal %></span>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+                <% } else if (email) { %>
+                    <div class="text-center py-5">
+                        <div class="mb-4">
+                            <i class="fas fa-box-open fa-4x text-muted opacity-25"></i>
+                        </div>
+                        <h4 class="text-muted">No orders found for this email.</h4>
+                        <p class="text-muted">Make sure you used the correct email address during checkout.</p>
+                    </div>
+                    <% } else { %>
+                        <div class="text-center py-5 bg-white rounded-5 shadow-sm">
+                            <div class="mb-4">
+                                <i class="fas fa-search fa-4x text-muted opacity-25"></i>
+                            </div>
+                            <h4>Search your orders</h4>
+                            <p class="text-muted">Enter your email address in the search box above to view your order
+                                history.</p>
+                        </div>
+                        <% } %>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>

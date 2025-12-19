@@ -4,12 +4,6 @@ function toggleMenu() {
     document.getElementById("overlay").classList.toggle("show");
 }
 
-function showSection(sectionId) {
-    document.querySelectorAll("section").forEach(sec => sec.classList.remove("show"));
-    document.getElementById(sectionId).classList.add("show");
-    window.scrollTo(0, 0);
-}
-
 // Checkout
 function toggleCardFields() {
     const payment = document.getElementById("payment").value;
@@ -54,88 +48,169 @@ function setupTestimonials() {
     });
 }
 
-// CRUD with Fetch API
-const API_URL = '/api/employees';
+// CRUD with Fetch API (Products)
+const API_URL = '/api/products';
+let allProducts = []; // Global state for products
 
-async function fetchEmployees() {
+async function fetchProducts() {
     try {
         const response = await fetch(API_URL);
-        return await response.json();
+        allProducts = await response.json(); // Update global state
+        return allProducts;
     } catch (error) {
-        console.error("Error fetching employees:", error);
+        console.error("Error fetching products:", error);
         return [];
     }
 }
 
 async function renderTable() {
-    const employees = await fetchEmployees();
-    const tbody = document.getElementById("employeeTable");
-    tbody.innerHTML = "";
-    employees.forEach(emp => {
-        const row = `<tr>
-      <td>${emp.id}</td><td>${emp.name}</td><td>${emp.role}</td><td>${emp.salary}</td>
-      <td>
-        <button class='btn btn-sm btn-gold' onclick='editEmployee(${emp.id})'>Edit</button>
-        <button class='btn btn-sm btn-danger' onclick='deleteEmployee(${emp.id})'>Delete</button>
-      </td>
-    </tr>`;
-        tbody.insertAdjacentHTML("beforeend", row);
-    });
-}
+    const products = await fetchProducts();
 
-async function addEmployee() {
-    const name = prompt("Enter name");
-    const role = prompt("Enter role");
-    const salary = prompt("Enter salary");
+    // Render Table (CRUD)
+    const tbody = document.getElementById("productTable");
+    if (tbody) {
+        tbody.innerHTML = "";
+        products.forEach(prod => {
+            const cats = Array.isArray(prod.categories) ? prod.categories.join(", ") : prod.categories;
+            const row = `<tr>
+          <td>
+            <div class="d-flex align-items-center">
+                <div class="avatar rounded-circle bg-light d-flex justify-content-center align-items-center text-primary fw-bold me-3" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                    ${prod.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                    <h6 class="mb-0 fw-bold" style="color: #151d42;">${prod.name}</h6>
+                </div>
+            </div>
+          </td>
+          <td class="text-muted" style="max-width: 300px;">${prod.description}</td>
+          <td><span class="badge bg-light text-dark border">${cats}</span></td>
+          <td class="text-end">
+            <button class='btn-icon btn-icon-edit' onclick='editProduct("${prod._id}")' title="Edit">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button class='btn-icon btn-icon-delete' onclick='deleteProduct("${prod._id}")' title="Delete">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>`;
+            tbody.insertAdjacentHTML("beforeend", row);
+        });
+    }
 
-    if (name && role && salary) {
-        try {
-            await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name, role, salary })
-            });
-            renderTable();
-        } catch (error) {
-            console.error("Error adding employee:", error);
-        }
+    // Render Grid (Homepage)
+    const grid = document.getElementById("productGrid");
+    if (grid) {
+        grid.innerHTML = "";
+        products.forEach(prod => {
+            const cats = Array.isArray(prod.categories) ? prod.categories.join(", ") : prod.categories;
+            const card = `
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">${prod.name}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">${cats}</h6>
+                            <p class="card-text">${prod.description}</p>
+                        </div>
+                    </div>
+                </div>
+             `;
+            grid.insertAdjacentHTML("beforeend", card);
+        });
     }
 }
 
-async function editEmployee(id) {
-    // First fetch current details to assume current values if prompt cancelled (or just to show them, but prompt doesn't support that easily without pre-filling).
-    // Simpler approach: Ask for new values.
-    const name = prompt("Enter new name");
-    const role = prompt("Enter new role");
-    const salary = prompt("Enter new salary");
+// Form Submit Handler
+document.addEventListener("DOMContentLoaded", () => {
+    // ... existing listeners ...
 
-    if (name && role && salary) {
-        try {
-            await fetch(`${API_URL}/${id}`, {
+    // Product Form Listener
+    const productForm = document.getElementById("productForm");
+    if (productForm) {
+        productForm.addEventListener("submit", handleProductFormSubmit);
+    }
+});
+
+function prepareAddProduct() {
+    document.getElementById('productForm').reset();
+    document.getElementById('productId').value = '';
+    document.getElementById('modalTitle').textContent = 'Add New Product';
+}
+
+function editProduct(id) {
+    const product = allProducts.find(p => p._id === id);
+    if (!product) return;
+
+    document.getElementById('productId').value = product._id;
+    document.getElementById('productName').value = product.name;
+    document.getElementById('productDesc').value = product.description;
+
+    const cats = Array.isArray(product.categories) ? product.categories.join(", ") : product.categories;
+    document.getElementById('productCats').value = cats;
+
+    document.getElementById('modalTitle').textContent = 'Edit Product';
+
+    // Show Modal
+    const modal = new bootstrap.Modal(document.getElementById('productModal'));
+    modal.show();
+}
+
+async function handleProductFormSubmit(e) {
+    e.preventDefault();
+
+    const id = document.getElementById('productId').value;
+    const name = document.getElementById('productName').value;
+    const description = document.getElementById('productDesc').value;
+    const categories = document.getElementById('productCats').value; // Backend should split this string if needed
+
+    const data = { name, description, categories };
+
+    try {
+        let response;
+        if (id) {
+            // Edit
+            response = await fetch(`${API_URL}/${id}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name, role, salary })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
             });
-            renderTable();
-        } catch (error) {
-            console.error("Error updating employee:", error);
+        } else {
+            // Add
+            response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
         }
+
+        if (response.ok) {
+            // Hide Modal
+            const modalEl = document.getElementById('productModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+
+            // Clean up backdrop if stuck (Bootstrap bug workaround)
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();
+
+            renderTable();
+        } else {
+            alert('Failed to save product');
+        }
+    } catch (error) {
+        console.error("Error saving product:", error);
     }
 }
 
-async function deleteEmployee(id) {
-    if (confirm("Are you sure you want to delete this employee?")) {
+async function deleteProduct(id) {
+    if (confirm("Are you sure you want to delete this product?")) {
         try {
             await fetch(`${API_URL}/${id}`, {
                 method: 'DELETE'
             });
             renderTable();
         } catch (error) {
-            console.error("Error deleting employee:", error);
+            console.error("Error deleting product:", error);
         }
     }
 }

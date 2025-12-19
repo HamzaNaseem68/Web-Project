@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+
+    <section class="admin-orders-page py-5" style="background-color: #f4f7f6; min-height: 80vh;">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 style="color: #151d42; font-weight: bold;">Order Management (Admin)</h2>
+                    <p class="text-muted">Update order statuses and manage the order lifecycle.</p>
+                </div>
+            </div>
+
+            <div class="table-container fade-in-up shadow-sm bg-white p-4" style="border-radius: 20px;">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr class="text-muted small text-uppercase">
+                                <th>Order ID</th>
+                                <th>Customer Email</th>
+                                <th>Total</th>
+                                <th>Current Status</th>
+                                <th class="text-end">Update Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% orders.forEach(order=> { %>
+                                <tr>
+                                    <td class="fw-bold">#<%= order._id.toString().slice(-8) %>
+                                    </td>
+                                    <td>
+                                        <%= order.email %>
+                                    </td>
+                                    <td class="fw-bold text-primary">Rs. <%= order.finalTotal %>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="badge <%= order.status === 'Delivered' ? 'bg-success' : (order.status === 'Processing' ? 'bg-warning text-dark' : 'bg-primary') %> py-2 px-3 rounded-pill">
+                                            <%= order.status %>
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <% if (order.status==='Placed' ) { %>
+                                            <button class="btn btn-sm btn-gold px-3 rounded-pill"
+                                                onclick="updateStatus('<%= order._id %>', 'Processing')">To
+                                                Processing</button>
+                                            <% } else if (order.status==='Processing' ) { %>
+                                                <button class="btn btn-sm btn-success px-3 rounded-pill"
+                                                    onclick="updateStatus('<%= order._id %>', 'Delivered')">To
+                                                    Delivered</button>
+                                                <% } else { %>
+                                                    <span class="text-success small fw-bold"><i
+                                                            class="fas fa-check-circle me-1"></i> Completed</span>
+                                                    <% } %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        async function updateStatus(orderId, nextStatus) {
+            try {
+                const response = await fetch('/order/admin/status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId, nextStatus })
+                });
+
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    const result = await response.json();
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error updating status:', error);
+            }
+        }
+    </script>
+
+    <%- include('partials/footer') %>
